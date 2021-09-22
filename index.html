@@ -114,7 +114,7 @@ body{
               let listOfFile = JSON.parse(xhr.responseText);
               let listOfFileHTML = ""
               for(var i=0; i<listOfFile.length; i++){
-                listOfFileHTML = listOfFileHTML + "<li> <a href='/download/" + listOfFile[i] +"'>" + listOfFile[i] + "</a></li>"
+                listOfFileHTML = listOfFileHTML + "<li> <a href='/downloads/" + listOfFile[i] +"'>" + listOfFile[i] + "</a></li>"
               }
               downloadDOM.innerHTML = listOfFileHTML;
             }else{

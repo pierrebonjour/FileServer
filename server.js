@@ -36,7 +36,7 @@ function sendIndexHtml(res){
 }
 
 function sendListOfUploadedFiles(res){
-  let uploadDir = path.join(__dirname, 'download');
+  let uploadDir = path.join(__dirname); //, 'download'
   fs.readdir(uploadDir, (err, files) => {
     if(err){
       console.log(err);
@@ -71,7 +71,7 @@ function sendUploadedFile(url, res){
 function saveUploadedFile(req, res){
   console.log('saving uploaded file');
   let fileName = path.basename(req.url);
-  let file = path.join(__dirname, 'download', fileName)
+  let file = path.join(__dirname, fileName) //, 'download'
   req.pipe(fs.createWriteStream(file));
   req.on('end', () => {
     res.writeHead(200, {'Content-Type': 'text'});

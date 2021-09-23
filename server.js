@@ -119,7 +119,8 @@ function checkValidityOfFile(content)
 	var dataArray = content.split(/\r?\n/);  //Be careful if you are in a \r\n world...
 	var finalArray = new Array();
 	if(dataArray.length==0) return "format non valide";
-	dataArray.forEach(element => {
+	for(const element of dataArray)
+	{
 		if(!isEmptyOrSpaces(element))
 		{
 			//try to see if there is 3 colomns
@@ -131,7 +132,7 @@ function checkValidityOfFile(content)
 			finalArray.push([el0,el1,el2]);
 		}
 		
-	});
+	}
 	return JSON.stringify(finalArray);
 }
 

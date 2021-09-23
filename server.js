@@ -44,8 +44,15 @@ function sendListOfUploadedFiles(res){
       res.write(JSON.stringify(err.message));
       res.end();
     }else{
+	  var finalList = new Array();
+	  for (const key in files){
+		if(files[key]!="remove")
+		{
+			finalList.push(files[key]);
+		}
+	  }
       res.writeHead(200, {'Content-Type': 'application/json'});
-      res.write(JSON.stringify(files));
+      res.write(JSON.stringify(finalList));
       res.end();
     }
   })

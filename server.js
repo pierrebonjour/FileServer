@@ -120,7 +120,7 @@ function checkValidityOfFile(content)
 	var finalArray = new Array();
 	if(dataArray.length==0) return "format non valide";
 	dataArray.forEach(element => {
-		if(!isEmptyOrSpaces(element)
+		if(!isEmptyOrSpaces(element))
 		{
 			//try to see if there is 3 colomns
 			var lineArr = element.split(',');

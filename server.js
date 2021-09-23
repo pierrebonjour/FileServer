@@ -67,7 +67,7 @@ function sendUploadedFile(url, res){
       res.write('File Not Found!');
       res.end();
     }else{
-		var dataArray = res.split(/\r?\n/);  //Be careful if you are in a \r\n world...
+		var dataArray = content.split(/\r?\n/);  //Be careful if you are in a \r\n world...
 		
 		res.writeHead(200, {'Content-Type': 'application/octet-stream'});
 		res.write(content);

@@ -116,24 +116,61 @@ function sendUploadedFile(url, res){
 
 function checkValidityOfFile(content)
 {
+	const nonValidFormat = "format non valide";
 	var dataArray = content.split(/\r?\n/);  //Be careful if you are in a \r\n world...
 	var finalArray = new Array();
-	if(dataArray.length==0) return "format non valide";
+	if(dataArray.length==0) return nonValidFormat;
+	
 	for(const element of dataArray)
 	{
 		if(!isEmptyOrSpaces(element))
 		{
 			//try to see if there is 3 colomns
 			var lineArr = element.split(',');
-			if (lineArr.length != 3) return "format non valide";
-			var el0 = lineArr[0].trim();
+			if (lineArr.length != 3) return nonValidFormat;
+			var barcode = lineArr[0].trim();
 			var el1 = lineArr[1].trim();
-			var el2 = lineArr[2].trim();
-			finalArray.push([el0,el1,el2]);
+			var quantity = lineArr[2].trim();
+			var barecodeSize = 18;
+			//codebarre
+			//check barcode for hexa and set-it up as hexa on 18
+			if(!isValidBarcodeHex(barcode, barecodeSize)) return nonValidFormat;
+			//set barecode to correct format
+			barcode=setBarcodeToFinalFormat(barcode, barecodeSize);
+			
+			//set quantity to int
+			quantity = parseInt(quantity);
+			if(isNaN(quantity)) return nonValidFormat;
+			if(quantity<0) return nonValidFormat;
+			
+			finalArray.push([barcode,el1,quantity]);
 		}
 		
 	}
 	return JSON.stringify(finalArray);
+}
+
+function setBarcodeToFinalFormat(str, size)
+{
+	//just to be shure trim again
+	str=str.trim();
+	str=str.toUpperCase();
+	str = str.padEnd(size,'F');
+	return str;
+}
+
+
+function isValidBarcodeHex(str, maxSize)
+{
+	if(str.length>maxSize || str.length==0) return false;
+	const legend = '0123456789abcdeABCDE';
+	for(let i = 0; i < str.length; i++){
+      if(legend.includes(str[i])){
+         continue;
+      };
+      return false;
+   };
+   return true;
 }
 
 function isEmptyOrSpaces(str){

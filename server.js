@@ -73,15 +73,16 @@ function delListOfUploadedFiles(res){
 	  for (const key in files){
 		  
 		let file = path.join(__dirname, 'download',files[key]);
-		  fs.unlink(file, (err) => {
-			  if (err) {
-				  console.log(err);
-				  res.writeHead(400, {'Content-Type': 'application/json'});
-				  res.write(JSON.stringify(err.message));
-				  res.end();
-			  }
+			  fs.unlink(file, (err) => {
+				  if (err) {
+					  console.log(err);
+					  res.writeHead(400, {'Content-Type': 'application/json'});
+					  res.write(JSON.stringify(err.message));
+					  res.end();
+				  }			  
+				  //file removed
+				})
 		  }
-	  }
 	  
       res.writeHead(200, {'Content-Type': 'application/json'});
       res.write(JSON.stringify(finalList));

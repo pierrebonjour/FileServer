@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Simple upload and download file server</title>
+<title>Chargement des fichiers de stock</title>
 <style>
 body{
   display: flex;
@@ -50,7 +50,24 @@ body{
     line-height: 36px;
     border: none;
     border-radius: 5px;
-    background-color: orange;
+    background-color: rgb(18,102,241);
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    padding: 0 10px;
+    color: white;
+    cursor: pointer;
+    transition: opacity 0.25s ease-in-out;
+}
+
+.btnDel{
+    display: inline-block;
+    min-width: 88px;
+    height: 36px;
+    line-height: 36px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(249,49,84);
     text-align: center;
     text-decoration: none;
     text-transform: uppercase;
@@ -72,9 +89,12 @@ body{
 </head>
 
 <body>
-  <h3> Simple upload and download file server</h3>
+  <h1>Chargement des fichiers de stock</h1>
   <!-- <button onClick="uploadFile" class="btn btn-raised">Upload</button> -->
-  <label for="upload" class="btn btn-raised">Upload</label>
+  <label for="upload" class="btn btn-raised">Charger un fichier de stock</label>
+  <br>
+  <button onclick="deleteAllFiles()" class="btn btnDel">Supprimer tous les fichiers</button>
+  <br>
   <input class="hidden" id="upload" type="file" onchange="uploadFile(event)" />
   <ol id="download"></ol>
   <div id="toast"></div>
@@ -124,6 +144,25 @@ body{
         }
         xhr.send();
       }
+	  
+	  function deleteAllFiles(){
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', '/del', true);
+        xhr.onreadystatechange = function(){
+          if(xhr.readyState === 4){
+            if(xhr.status === 200){
+				showToastMessage("tous les fichiers ont été supprimés avec succès", 'success');
+				showUploadedFiles();
+            }else{
+				showToastMessage("erreur lors de la suppression des fichiers", 'error');
+				showUploadedFiles();
+            }
+          }
+        }
+        xhr.send();
+      }
+	  
+	  
 
       function showToastMessage(msg, type){
         console.log('inside showtoast mesage', msg, type)

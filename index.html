@@ -99,7 +99,6 @@ body{
   <ol id="download"></ol>
   <div id="toast"></div>
   <script>
-  alert("éè");
       var downloadDOM = document.getElementById('download');
       var toastDOM = document.getElementById('toast');
       showUploadedFiles();
@@ -152,10 +151,10 @@ body{
         xhr.onreadystatechange = function(){
           if(xhr.readyState === 4){
             if(xhr.status === 200){
-				showToastMessage("tous les fichiers ont &eacute;t&eacute; supprim&eacute;s avec succ&egrave;s", 'success');
+				showToastMessage("OK - suppression de tous les fichiers", 'success');
 				showUploadedFiles();
             }else{
-				showToastMessage("erreur lors de la suppression des fichiers", 'error');
+				showToastMessage("erreur lors de la suppression des fichiers : ", 'error');
 				showUploadedFiles();
             }
           }

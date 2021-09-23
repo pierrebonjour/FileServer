@@ -117,7 +117,7 @@ function saveUploadedFile(req, res){
   req.pipe(fs.createWriteStream(file));
   req.on('end', () => {
     res.writeHead(200, {'Content-Type': 'text'});
-    res.write('fichier correctement charg&eacute;');
+    res.write('OK - fichier sur serveur');
     res.end();
   })
 }

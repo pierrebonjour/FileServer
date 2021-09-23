@@ -100,15 +100,44 @@ function sendUploadedFile(url, res){
       res.write('File Not Found!');
       res.end();
     }else{
-		var dataArray = content.split(/\r?\n/);  //Be careful if you are in a \r\n world...
+		var returnStr = checkValidityOfFile(content);
+		res.writeHead(200, {'Content-Type': 'application/json'});
+		res.write(returnStr);
+		res.end();
 		
+		/*
 		res.writeHead(200, {'Content-Type': 'application/octet-stream'});
 		res.write(content);
 		res.end();
+		*/
     }
   })
 }
 
+function checkValidityOfFile(content)
+{
+	var dataArray = content.split(/\r?\n/);  //Be careful if you are in a \r\n world...
+	var finalArray = new Array();
+	if(dataArray.length==0) return "format non valide";
+	dataArray.forEach(element => {
+		if(!isEmptyOrSpaces(element)
+		{
+			//try to see if there is 3 colomns
+			var lineArr = element.split(',');
+			if (lineArr.length != 3) return "format non valide";
+			var el0 = lineArr[0].trim();
+			var el1 = lineArr[1].trim();
+			var el2 = lineArr[2].trim();
+			finalArray.push([el0,el1,el2]);
+		}
+		
+	});
+	return JSON.stringify(finalArray);
+}
+
+function isEmptyOrSpaces(str){
+    return str === null || str.match(/^ *$/) !== null;
+}
 
 function saveUploadedFile(req, res){
   console.log('saving uploaded file');

@@ -11,6 +11,8 @@ function requestHandler(req, res){
     sendIndexHtml(res);
   }else if( req.url === '/list'){
     sendListOfUploadedFiles(res);
+  }else if( req.url === '/del'){
+    delListOfUploadedFiles(res);
   }else if( /\/download\/[^\/]+$/.test(req.url)){
     sendUploadedFile(req.url, res);
   }else if( /\/upload\/[^\/]+$/.test(req.url) ){
@@ -51,6 +53,36 @@ function sendListOfUploadedFiles(res){
 			finalList.push(files[key]);
 		}
 	  }
+      res.writeHead(200, {'Content-Type': 'application/json'});
+      res.write(JSON.stringify(finalList));
+      res.end();
+    }
+  })
+}
+
+function delListOfUploadedFiles(res){
+  let uploadDir = path.join(__dirname,'download');
+  fs.readdir(uploadDir, (err, files) => {
+    if(err){
+      console.log(err);
+      res.writeHead(400, {'Content-Type': 'application/json'});
+      res.write(JSON.stringify(err.message));
+      res.end();
+    }else{
+	  var finalList = new Array();
+	  for (const key in files){
+		  
+		let file = path.join(__dirname, 'download',files[key]);
+		  fs.unlink(file, (err) => {
+			  if (err) {
+				  console.log(err);
+				  res.writeHead(400, {'Content-Type': 'application/json'});
+				  res.write(JSON.stringify(err.message));
+				  res.end();
+			  }
+		  }
+	  }
+	  
       res.writeHead(200, {'Content-Type': 'application/json'});
       res.write(JSON.stringify(finalList));
       res.end();
